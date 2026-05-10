@@ -236,21 +236,24 @@
 </div>
 
 <script>
-const CFG_KEY='dfcfg', CT_KEY='dfctags', FAV_KEY='dffavs', APP_VER='v1.1.1';
+const CFG_KEY='dfcfg', CT_KEY='dfctags', FAV_KEY='dffavs', APP_VER='v1.2.0';
 
 // ── FILTER DEFINITIONS ──────────────────────────────────────
 const FILTER_GROUPS = [
   {
     id:'producto', label:'📋 Producto', type:'normal',
     chips:[
-      {id:'fichas', label:'Fichas', match:{grupos:['Producto Nutergia'], tipos:['Ficha','Vademecum']}},
+      {id:'fichas', label:'Fichas', match:{carpetas:['fichas'], tipos:['Ficha']}},
+      {id:'fichas_nuevas', label:'Fichas nuevas', match:{carpetas:['fichas nuevas']}},
       {id:'vademecum', label:'Vademecum', match:{carpetas:['vademecum']}},
+      {id:'ayuda_visita', label:'Ayuda de visita', match:{carpetas:['fichas/ayuda de visita'], palabras:['ayuda de visita','herramienta visita']}},
       {id:'journals', label:'Journals', match:{tipos:['Journal'], palabras:['journal']}},
       {id:'estudios', label:'Estudios', match:{tipos:['Estudio/Informe'], palabras:['estudio','informe']}},
       {id:'marketing', label:'Marketing', match:{tipos:['Marketing'], carpetas:['nutergia/materiales marketing']}},
       {id:'tutoriales', label:'Tutoriales', match:{carpetas:['tutoriales de nutergia']}},
       {id:'protocolos', label:'Protocolos', match:{palabras:['protocolo']}},
-      {id:'oficial', label:'Oficial Nutergia', match:{etiquetas:['oficial','nutergia oficial']}},
+      {id:'oficial', label:'Oficial Nutergia', match:{carpetas:['nutergia']}},
+      {id:'presentacion', label:'Presentación', match:{palabras:['presentac'], tipos:['Presentación']}},
     ]
   },
   {
@@ -314,6 +317,34 @@ const FILTER_GROUPS = [
       {id:'xavier', label:'Xavier', match:{carpetas:['xavier']}},
       {id:'maria', label:'María Viñals', match:{carpetas:['02 maria viñals']}},
       {id:'escaneados', label:'Escaneados', match:{carpetas:['escaneados_']}},
+    ]
+  },
+  {
+    id:'tipo_doc', label:'📄 Tipo doc', type:'normal',
+    chips:[
+      {id:'rellenable', label:'Rellenable', match:{palabras:['rellenable','rellenar','formulario']}},
+      {id:'lista_asistentes', label:'Lista asistentes', match:{palabras:['asistentes','inscritos','participantes']}},
+      {id:'hoja_pedido', label:'Hoja de pedido', match:{palabras:['hoja de pedido','hoja pedido']}},
+      {id:'sin_duplicado', label:'Sin duplicado', match:{noDuplicado:true}},
+    ]
+  },
+  {
+    id:'persona', label:'👤 Persona', type:'normal',
+    chips:[
+      {id:'p_fran', label:'Fran', match:{carpetas:['02 pedidos'], palabras:['fran','nunez','nuñez']}},
+      {id:'p_xavier', label:'Xavier', match:{carpetas:['xavier'], palabras:['xavier']}},
+      {id:'p_maria', label:'María Viñals', match:{carpetas:['02 maria viñals'], palabras:['viñals','viñal','maria']}},
+      {id:'p_alvaro', label:'Álvaro Huercano', match:{carpetas:['informacion de alvaro huercano'], palabras:['alvaro','huercano']}},
+    ]
+  },
+  {
+    id:'anio', label:'📅 Año', type:'normal',
+    chips:[
+      {id:'a2026', label:'2026', match:{etiquetas:['2026'], palabras:['2026']}},
+      {id:'a2025', label:'2025', match:{etiquetas:['2025'], palabras:['2025']}},
+      {id:'a2024', label:'2024', match:{etiquetas:['2024'], palabras:['2024']}},
+      {id:'a2023', label:'2023', match:{etiquetas:['2023'], palabras:['2023']}},
+      {id:'a2022', label:'2022', match:{etiquetas:['2022'], palabras:['2022']}},
     ]
   },
   {
@@ -418,6 +449,7 @@ function docMatchesCarpeta(doc, carpeta){
 
 function docMatchesChipFixed(doc, chip){
   const m=chip.match;
+  if(m.noDuplicado) return !doc.duplicado;
   const ruta=norm(doc.ruta.replace(/\\/g,'/'));
   const todo=norm([doc.nombre,doc.descripcion,doc.etiquetas,doc.categoria,doc.grupo,doc.tipo,(customTags[dk(doc)]||[]).join(' ')].join(' '));
   if(m.grupos && m.grupos.some(g=>norm(doc.grupo||'').includes(norm(g)))) return true;

@@ -1,4 +1,4 @@
-const CACHE = 'docufran-v1.1.1';
+const CACHE = 'docufran-v1.2.0';
 const ASSETS = ['/', '/index.html', '/manifest.json', '/catalogo_archivos.csv'];
 
 self.addEventListener('install', e => {

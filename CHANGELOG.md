@@ -1,5 +1,15 @@
 # DocuFran — Historial de versiones
 
+## v1.2.0 — 2026-05-10
+### Novedades
+- Fichas y Fichas nuevas como filtros separados en grupo Producto
+- Nuevo filtro Ayuda de visita y Presentación en Producto
+- Nuevo grupo Tipo doc: Rellenable, Lista asistentes, Hoja de pedido, Sin duplicado
+- Nuevo grupo Persona: Fran, Xavier, Maria Vinales, Alvaro Huercano
+- Nuevo grupo Año: 2022, 2023, 2024, 2025, 2026
+- Filtro Sin duplicado para ver solo originales
+- Descripciones inteligentes generadas para todos los documentos del CSV
+
 ## v1.1.1 — 2026-05-10
 ### Correcciones
 - Lectura correcta de columnas Grupo y Tipo del CSV (BOM y comillas en cabecera)
