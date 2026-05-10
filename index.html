@@ -421,7 +421,11 @@ async function loadData(){
     document.getElementById('loadState').style.display='none';
     buildFilterGroups();showEmpty();
     document.getElementById('hsub').textContent=c.user?`${c.user} · ${allDocs.length.toLocaleString()} docs`:`${allDocs.length.toLocaleString()} documentos`;
-    document.getElementById('vbadge').textContent=APP_VER;
+    // Leer version del CHANGELOG
+    fetch('CHANGELOG.md').then(r=>r.text()).then(txt=>{
+      const m=txt.match(/##\s+(v[\d.]+)/);
+      if(m) document.getElementById('vbadge').textContent=m[1];
+    }).catch(()=>document.getElementById('vbadge').textContent=APP_VER);
     if(!c.user)setTimeout(openSettings,700);
   }catch(e){document.getElementById('loadState').innerHTML=`<div class="big">⚠️</div><h3>Error al cargar</h3><p>${e.message}</p>`;}
 }

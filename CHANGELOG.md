@@ -1,5 +1,15 @@
 # DocuFran — Historial de versiones
 
+## v1.2.2 — 2026-05-10
+### Correcciones
+- Versión leída automáticamente desde CHANGELOG, sin tocar index.html
+- CSV: 378 filas con nombre de archivo en columna Tipo corregidas
+- El nombre del archivo ya no aparece como etiqueta de tipo en las tarjetas
+
+## v1.2.1 — 2026-05-10
+### Correcciones
+- Nombre del documento más prominente en las tarjetas
+
 ## v1.2.0 — 2026-05-10
 ### Novedades
 - Fichas y Fichas nuevas como filtros separados en grupo Producto
