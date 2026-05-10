@@ -1,259 +1,638 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a1f2e" id="themeColorMeta" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="DocuFran" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a1f2e" id="themeColorMeta"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="DocuFran"/>
   <title>DocuFran</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
-  <link rel="icon" href="icons/icon-192.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --glass-bg:rgba(255,255,255,0.07);--glass-border:rgba(255,255,255,0.13);--glass-hover:rgba(255,255,255,0.12);
-      --surface:#1a1f2e;--surface2:#222736;--surface3:#2a3045;
-      --accent:#7eb8f7;--accent2:#a78bfa;--accent3:#6ee7b7;
-      --text:#eef0f7;--muted:#8890aa;--danger:#f87171;--success:#6ee7b7;
-      --font:'Outfit',sans-serif;--radius:16px;--radius-sm:10px;--blur:blur(20px);
+    :root{
+      --gb:rgba(255,255,255,0.07);--gborder:rgba(255,255,255,0.13);--ghover:rgba(255,255,255,0.12);
+      --s:#1a1f2e;--s2:#222736;--s3:#2a3045;--s4:#313654;
+      --a:#7eb8f7;--a2:#a78bfa;--a3:#6ee7b7;--a4:#fbbf24;
+      --tx:#eef0f7;--mu:#8890aa;--dg:#f87171;
+      --font:'Outfit',sans-serif;--r:16px;--rsm:10px;
       --orb1:rgba(126,184,247,0.12);--orb2:rgba(167,139,250,0.10);
     }
-    .light {
-      --glass-bg:rgba(0,0,0,0.04);--glass-border:rgba(0,0,0,0.1);--glass-hover:rgba(0,0,0,0.07);
-      --surface:#f0f2f8;--surface2:#e4e8f2;--surface3:#d8ddef;
-      --accent:#2563eb;--accent2:#7c3aed;--accent3:#059669;
-      --text:#1a1f2e;--muted:#64748b;--danger:#dc2626;--success:#059669;
+    .light{
+      --gb:rgba(0,0,0,0.04);--gborder:rgba(0,0,0,0.10);--ghover:rgba(0,0,0,0.07);
+      --s:#f0f2f8;--s2:#e4e8f2;--s3:#d8ddef;--s4:#ccd3e8;
+      --a:#2563eb;--a2:#7c3aed;--a3:#059669;--a4:#d97706;
+      --tx:#1a1f2e;--mu:#64748b;--dg:#dc2626;
       --orb1:rgba(37,99,235,0.07);--orb2:rgba(124,58,237,0.06);
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-    html,body{height:100%;background:var(--surface);color:var(--text);font-family:var(--font);overscroll-behavior:none;transition:background 0.3s,color 0.3s;}
+    html,body{height:100%;background:var(--s);color:var(--tx);font-family:var(--font);overscroll-behavior:none;transition:background .3s,color .3s;}
     body::before{content:'';position:fixed;top:-20%;left:-10%;width:60vw;height:60vw;background:radial-gradient(circle,var(--orb1) 0%,transparent 70%);pointer-events:none;z-index:0;}
     body::after{content:'';position:fixed;bottom:-10%;right:-10%;width:50vw;height:50vw;background:radial-gradient(circle,var(--orb2) 0%,transparent 70%);pointer-events:none;z-index:0;}
     #app{position:relative;z-index:1;max-width:900px;margin:0 auto;height:100vh;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0);}
-    .header{padding:14px 16px 10px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-    .logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
-    .header-text{flex:1;min-width:0;}
-    .header-text h1{font-size:18px;font-weight:600;letter-spacing:-0.3px;}
-    .header-text p{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .header-actions{display:flex;gap:6px;flex-shrink:0;}
-    .icon-btn{width:34px;height:34px;border-radius:9px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:background 0.2s,color 0.2s;}
-    .icon-btn:hover{background:var(--glass-hover);color:var(--text);}
-    .search-section{padding:0 14px 8px;flex-shrink:0;}
-    .search-box{display:flex;align-items:center;gap:10px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius);padding:0 14px;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:border-color 0.2s;}
-    .search-box:focus-within{border-color:var(--accent);}
-    #searchInput{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:15px;padding:13px 0;}
-    #searchInput::placeholder{color:var(--muted);}
-    .clear-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px;display:none;}
-    .clear-btn.visible{display:flex;}
-    .filters-section{padding:0 14px 6px;flex-shrink:0;}
-    .filter-group-label{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:500;margin-bottom:5px;padding-left:2px;}
-    .filters-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;margin-bottom:7px;}
-    .filters-scroll::-webkit-scrollbar{display:none;}
-    .filter-chip{display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:20px;border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--muted);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all 0.18s;flex-shrink:0;}
-    .filter-chip:hover{background:var(--glass-hover);color:var(--text);}
-    .filter-chip.active{background:rgba(126,184,247,0.15);border-color:var(--accent);color:var(--accent);}
-    .filter-chip.therapeutic.active{background:rgba(167,139,250,0.15);border-color:var(--accent2);color:var(--accent2);}
-    .chip-count{font-size:10px;background:rgba(255,255,255,0.1);border-radius:6px;padding:1px 4px;}
-    .light .chip-count{background:rgba(0,0,0,0.08);}
-    .stats-bar{padding:0 18px 8px;font-size:12px;color:var(--muted);flex-shrink:0;}
-    .stats-bar span{color:var(--accent);font-weight:500;}
-    .results-area{flex:1;overflow-y:auto;padding:0 14px 20px;scrollbar-width:thin;scrollbar-color:var(--glass-border) transparent;}
-    .results-area::-webkit-scrollbar{width:3px;}
-    .results-area::-webkit-scrollbar-thumb{background:var(--glass-border);border-radius:2px;}
-    .result-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius);padding:12px 14px;margin-bottom:9px;cursor:pointer;transition:background 0.18s,border-color 0.18s;display:flex;gap:11px;align-items:flex-start;}
-    .result-card:hover{background:var(--glass-hover);}
-    .result-card.expanded{border-color:rgba(126,184,247,0.35);}
-    .file-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
-    .icon-pdf{background:rgba(248,113,113,0.18);color:#f87171;}
-    .icon-xlsx,.icon-xls{background:rgba(110,231,183,0.18);color:#6ee7b7;}
-    .icon-docx,.icon-doc{background:rgba(126,184,247,0.18);color:#7eb8f7;}
-    .icon-pptx,.icon-ppt{background:rgba(251,191,36,0.18);color:#fbbf24;}
-    .icon-img{background:rgba(167,139,250,0.18);color:#a78bfa;}
-    .icon-other{background:rgba(255,255,255,0.08);color:var(--muted);}
-    .card-body{flex:1;min-width:0;}
-    .card-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;}
-    .card-meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
-    .card-path{font-size:11px;color:var(--muted);opacity:0.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;}
-    .tag-pill{font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(167,139,250,0.13);color:var(--accent2);border:1px solid rgba(167,139,250,0.18);}
-    .tag-pill.custom{background:rgba(110,231,183,0.13);color:var(--accent3);border-color:rgba(110,231,183,0.2);}
-    .tag-pill.dup{background:rgba(248,113,113,0.12);color:var(--danger);border-color:rgba(248,113,113,0.2);}
-    .card-details{display:none;margin-top:10px;}
-    .result-card.expanded .card-details{display:block;}
-    .full-path{font-size:11px;color:var(--muted);background:var(--surface3);border-radius:7px;padding:8px 10px;margin-bottom:8px;word-break:break-all;line-height:1.6;}
-    .card-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
-    .action-btn{padding:8px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass-bg);color:var(--text);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all 0.18s;text-decoration:none;}
-    .action-btn:hover{background:var(--glass-hover);}
-    .action-btn.primary{background:rgba(126,184,247,0.14);border-color:rgba(126,184,247,0.3);color:var(--accent);}
-    .action-btn.copied{color:var(--success);border-color:rgba(110,231,183,0.3);}
-    .tag-editor{border-top:1px solid var(--glass-border);padding-top:8px;margin-top:4px;}
-    .tag-editor-label{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;}
-    .tag-editor-row{display:flex;gap:6px;}
-    .tag-input{flex:1;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:7px;padding:6px 10px;color:var(--text);font-family:var(--font);font-size:12px;outline:none;}
-    .tag-input:focus{border-color:var(--accent3);}
-    .tag-add-btn{padding:6px 12px;border-radius:7px;border:1px solid rgba(110,231,183,0.3);background:rgba(110,231,183,0.1);color:var(--accent3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;}
-    .custom-tags-list{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
-    .custom-tag-item{display:flex;align-items:center;gap:3px;font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(110,231,183,0.13);color:var(--accent3);border:1px solid rgba(110,231,183,0.2);}
-    .remove-tag{background:none;border:none;color:var(--accent3);cursor:pointer;font-size:12px;padding:0;opacity:0.7;}
-    .remove-tag:hover{opacity:1;}
-    .state-msg{text-align:center;padding:50px 20px;color:var(--muted);}
-    .state-msg .big{font-size:38px;margin-bottom:10px;}
-    .state-msg h3{font-size:16px;font-weight:500;color:var(--text);margin-bottom:5px;}
-    .state-msg p{font-size:13px;line-height:1.6;}
-    .spinner{width:26px;height:26px;border:2px solid var(--glass-border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-    .modal-overlay{position:fixed;inset:0;background:rgba(10,12,20,0.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
-    .modal-overlay.open{opacity:1;pointer-events:all;}
-    .modal-sheet{width:100%;max-width:900px;background:var(--surface2);border-radius:22px 22px 0 0;border:1px solid var(--glass-border);border-bottom:none;padding:18px 18px 36px;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);max-height:85vh;overflow-y:auto;}
-    .modal-overlay.open .modal-sheet{transform:translateY(0);}
-    .modal-handle{width:34px;height:4px;background:var(--glass-border);border-radius:2px;margin:0 auto 18px;}
-    .modal-title{font-size:16px;font-weight:600;margin-bottom:18px;}
-    .setting-group{margin-bottom:16px;}
-    .setting-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;font-weight:500;}
-    .setting-input{width:100%;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:11px 13px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:border-color 0.2s;}
-    .setting-input:focus{border-color:var(--accent);}
-    .setting-input[type="password"]{letter-spacing:0.15em;}
-    .save-btn{width:100%;padding:13px;border-radius:var(--radius-sm);border:none;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;}
-    .version-info{text-align:center;font-size:11px;color:var(--muted);margin-top:14px;}
-    mark{background:rgba(126,184,247,0.22);color:var(--accent);border-radius:3px;padding:0 2px;}
-    .light mark{background:rgba(37,99,235,0.15);}
+
+    /* HEADER */
+    .hdr{padding:12px 16px 8px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+    .hdr-txt{flex:1;min-width:0;}
+    .hdr-txt h1{font-size:17px;font-weight:600;letter-spacing:-.3px;display:flex;align-items:baseline;gap:6px;}
+    .ver{font-size:10px;font-weight:400;color:var(--mu);}
+    .hdr-txt p{font-size:11px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .hdr-acts{display:flex;gap:5px;flex-shrink:0;}
+    .ibtn{width:32px;height:32px;border-radius:8px;background:var(--gb);border:1px solid var(--gborder);color:var(--mu);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,color .2s;}
+    .ibtn:hover,.ibtn.on{background:var(--ghover);color:var(--tx);}
+    .ibtn.fav-on{color:var(--a4);}
+
+    /* SEARCH */
+    .srch{padding:0 14px 6px;flex-shrink:0;}
+    .sbox{display:flex;align-items:center;gap:8px;background:var(--gb);border:1px solid var(--gborder);border-radius:var(--r);padding:0 13px;transition:border-color .2s;}
+    .sbox:focus-within{border-color:var(--a);}
+    #si{flex:1;background:none;border:none;outline:none;color:var(--tx);font-family:var(--font);font-size:15px;padding:12px 0;}
+    #si::placeholder{color:var(--mu);}
+    .clr{background:none;border:none;color:var(--mu);cursor:pointer;font-size:15px;padding:3px;display:none;}
+    .clr.on{display:flex;}
+
+    /* ACTIVE TAGS BAR */
+    .atags{padding:0 14px 4px;flex-shrink:0;display:none;}
+    .atags.on{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;}
+    .atags::-webkit-scrollbar{display:none;}
+    .atag{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:14px;font-size:11px;font-weight:500;cursor:pointer;flex-shrink:0;transition:opacity .2s;}
+    .atag.g{background:rgba(126,184,247,0.18);color:var(--a);border:1px solid rgba(126,184,247,0.3);}
+    .atag.t{background:rgba(167,139,250,0.18);color:var(--a2);border:1px solid rgba(167,139,250,0.3);}
+    .atag.ex{background:rgba(248,113,113,0.15);color:var(--dg);border:1px solid rgba(248,113,113,0.25);}
+    .atag.fv{background:rgba(251,191,36,0.18);color:var(--a4);border:1px solid rgba(251,191,36,0.3);}
+
+    /* FILTER PANELS */
+    .flt{padding:0 14px 6px;flex-shrink:0;}
+    .flt-row{display:flex;gap:6px;margin-bottom:5px;overflow-x:auto;scrollbar-width:none;}
+    .flt-row::-webkit-scrollbar{display:none;}
+    .fgrp-btn{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:18px;border:1px solid var(--gborder);background:var(--gb);color:var(--mu);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .18s;}
+    .fgrp-btn:hover,.fgrp-btn.open{background:var(--ghover);color:var(--tx);}
+    .fgrp-btn .cnt{font-size:10px;background:rgba(255,255,255,0.1);border-radius:5px;padding:1px 4px;}
+    .light .fgrp-btn .cnt{background:rgba(0,0,0,0.08);}
+    .fgrp-btn.has-active{border-color:var(--a);color:var(--a);}
+    .fgrp-btn.has-active.therapeutic{border-color:var(--a2);color:var(--a2);}
+    .fgrp-btn.has-active.excl{border-color:var(--dg);color:var(--dg);}
+
+    /* DROPDOWN PANEL */
+    .fdrop{display:none;background:var(--s2);border:1px solid var(--gborder);border-radius:12px;padding:10px;margin-bottom:6px;flex-wrap:wrap;gap:6px;}
+    .fdrop.open{display:flex;}
+    .fchip{padding:5px 10px;border-radius:14px;border:1px solid var(--gborder);background:var(--gb);color:var(--mu);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .18s;user-select:none;}
+    .fchip:hover{background:var(--ghover);color:var(--tx);}
+    .fchip.on{background:rgba(126,184,247,0.18);border-color:var(--a);color:var(--a);}
+    .fchip.therapeutic.on{background:rgba(167,139,250,0.18);border-color:var(--a2);color:var(--a2);}
+    .fchip.excl.on{background:rgba(248,113,113,0.12);border-color:var(--dg);color:var(--dg);}
+
+    /* STATS */
+    .stats{padding:0 18px 6px;font-size:12px;color:var(--mu);flex-shrink:0;}
+    .stats span{color:var(--a);font-weight:500;}
+
+    /* RESULTS */
+    .res{flex:1;overflow-y:auto;padding:0 14px 20px;scrollbar-width:thin;scrollbar-color:var(--gborder) transparent;}
+    .res::-webkit-scrollbar{width:3px;}
+    .res::-webkit-scrollbar-thumb{background:var(--gborder);border-radius:2px;}
+    .rgrid{display:flex;flex-direction:column;gap:8px;}
+
+    /* CARD */
+    .card{background:var(--gb);border:1px solid var(--gborder);border-radius:var(--r);padding:11px 13px;cursor:pointer;transition:background .18s,border-color .18s;display:flex;gap:10px;align-items:flex-start;}
+    .card:hover{background:var(--ghover);}
+    .card.exp{border-color:rgba(126,184,247,0.35);}
+    .card.faved{border-color:rgba(251,191,36,0.35);}
+    .ficon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+    .i-pdf{background:rgba(248,113,113,0.18);color:#f87171;}
+    .i-xlsx,.i-xls{background:rgba(110,231,183,0.18);color:#6ee7b7;}
+    .i-docx,.i-doc{background:rgba(126,184,247,0.18);color:#7eb8f7;}
+    .i-pptx,.i-ppt{background:rgba(251,191,36,0.18);color:#fbbf24;}
+    .i-img{background:rgba(167,139,250,0.18);color:#a78bfa;}
+    .i-mp4,.i-mp3,.i-m4a{background:rgba(251,113,133,0.15);color:#fb7185;}
+    .i-other{background:rgba(255,255,255,0.07);color:var(--mu);}
+    .cbody{flex:1;min-width:0;}
+    .cname{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;}
+    .cmeta{font-size:11px;color:var(--mu);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:3px;}
+    .cpath{font-size:10px;color:var(--mu);opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .ctags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;}
+    .tp{font-size:10px;padding:2px 6px;border-radius:7px;}
+    .tp.g{background:rgba(126,184,247,0.12);color:var(--a);border:1px solid rgba(126,184,247,0.18);}
+    .tp.t{background:rgba(167,139,250,0.12);color:var(--a2);border:1px solid rgba(167,139,250,0.18);}
+    .tp.c{background:rgba(110,231,183,0.12);color:var(--a3);border:1px solid rgba(110,231,183,0.18);}
+    .tp.dup{background:rgba(248,113,113,0.1);color:var(--dg);border:1px solid rgba(248,113,113,0.18);}
+    .card-fav-btn{background:none;border:none;font-size:16px;cursor:pointer;padding:2px;flex-shrink:0;opacity:.4;transition:opacity .2s;}
+    .card-fav-btn:hover,.card-fav-btn.on{opacity:1;}
+
+    /* EXPANDED */
+    .cdet{display:none;margin-top:9px;}
+    .card.exp .cdet{display:block;}
+    .fullpath{font-size:11px;color:var(--mu);background:var(--s3);border-radius:7px;padding:7px 10px;margin-bottom:7px;word-break:break-all;line-height:1.6;}
+    .cacts{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;}
+    .abtn{padding:8px;border-radius:var(--rsm);border:1px solid var(--gborder);background:var(--gb);color:var(--tx);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .18s;text-decoration:none;}
+    .abtn:hover{background:var(--ghover);}
+    .abtn.pr{background:rgba(126,184,247,0.13);border-color:rgba(126,184,247,0.28);color:var(--a);}
+    .abtn.cp{color:var(--a3);border-color:rgba(110,231,183,0.28);}
+
+    /* TAG EDITOR */
+    .tedit{border-top:1px solid var(--gborder);padding-top:7px;margin-top:3px;}
+    .telabel{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:5px;}
+    .terow{display:flex;gap:5px;}
+    .teinput{flex:1;background:var(--gb);border:1px solid var(--gborder);border-radius:7px;padding:6px 9px;color:var(--tx);font-family:var(--font);font-size:12px;outline:none;}
+    .teinput:focus{border-color:var(--a3);}
+    .teadd{padding:6px 11px;border-radius:7px;border:1px solid rgba(110,231,183,0.28);background:rgba(110,231,183,0.09);color:var(--a3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;}
+    .ctlist{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;}
+    .ctitem{display:flex;align-items:center;gap:3px;font-size:10px;padding:2px 6px;border-radius:7px;background:rgba(110,231,183,0.12);color:var(--a3);border:1px solid rgba(110,231,183,0.2);}
+    .rmtag{background:none;border:none;color:var(--a3);cursor:pointer;font-size:11px;padding:0;opacity:.7;}
+
+    /* STATES */
+    .smsg{text-align:center;padding:50px 20px;color:var(--mu);}
+    .smsg .big{font-size:36px;margin-bottom:10px;}
+    .smsg h3{font-size:16px;font-weight:500;color:var(--tx);margin-bottom:5px;}
+    .smsg p{font-size:13px;line-height:1.6;}
+    .spin{width:24px;height:24px;border:2px solid var(--gborder);border-top-color:var(--a);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 12px;}
+    @keyframes sp{to{transform:rotate(360deg);}}
+
+    /* MODAL */
+    .mover{position:fixed;inset:0;background:rgba(10,12,20,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+    .mover.on{opacity:1;pointer-events:all;}
+    .msheet{width:100%;max-width:900px;background:var(--s2);border-radius:22px 22px 0 0;border:1px solid var(--gborder);border-bottom:none;padding:16px 18px 36px;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-height:85vh;overflow-y:auto;}
+    .mover.on .msheet{transform:translateY(0);}
+    .mhandle{width:32px;height:4px;background:var(--gborder);border-radius:2px;margin:0 auto 16px;}
+    .mtitle{font-size:16px;font-weight:600;margin-bottom:16px;}
+    .sgrp{margin-bottom:14px;}
+    .slabel{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:5px;font-weight:500;}
+    .sinput{width:100%;background:var(--gb);border:1px solid var(--gborder);border-radius:var(--rsm);padding:10px 12px;color:var(--tx);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s;}
+    .sinput:focus{border-color:var(--a);}
+    .sinput[type="password"]{letter-spacing:.15em;}
+    .sbtn{width:100%;padding:12px;border-radius:var(--rsm);border:none;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;margin-top:5px;}
+    .vinfo{text-align:center;font-size:11px;color:var(--mu);margin-top:12px;}
+
+    mark{background:rgba(126,184,247,0.2);color:var(--a);border-radius:3px;padding:0 2px;}
+    .light mark{background:rgba(37,99,235,0.14);}
+
     @media (min-width:600px) and (orientation:landscape),(min-width:768px){
-      .header,.search-section,.filters-section,.stats-bar{padding-left:22px;padding-right:22px;}
-      .results-area{padding-left:22px;padding-right:22px;}
-      .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-      .results-grid .result-card{margin-bottom:0;}
+      .hdr,.srch,.flt,.stats{padding-left:20px;padding-right:20px;}
+      .atags{padding-left:20px;padding-right:20px;}
+      .res{padding-left:20px;padding-right:20px;}
+      .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
     }
-    @media (min-width:900px){.results-grid{grid-template-columns:1fr 1fr 1fr;}}
+    @media (min-width:900px){.rgrid{grid-template-columns:1fr 1fr 1fr;}}
   </style>
 </head>
 <body>
 <div id="app">
-  <div class="header">
+  <div class="hdr">
     <div class="logo">DF</div>
-    <div class="header-text">
-      <h1>DocuFran <span id="versionBadge" style="font-size:11px;font-weight:400;color:var(--muted);"></span></h1>
-      <p id="headerSub">Cargando…</p>
+    <div class="hdr-txt">
+      <h1>DocuFran <span class="ver" id="vbadge"></span></h1>
+      <p id="hsub">Cargando…</p>
     </div>
-    <div class="header-actions">
-      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
-      <button class="icon-btn" onclick="openSettings()" title="Ajustes">⚙</button>
-    </div>
-  </div>
-  <div class="search-section">
-    <div class="search-box">
-      <span style="color:var(--muted);font-size:17px;flex-shrink:0;">🔍</span>
-      <input type="search" id="searchInput" placeholder="embarazada, detox hígado, fran ventas…" autocomplete="off" autocorrect="off" spellcheck="false" />
-      <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
+    <div class="hdr-acts">
+      <button class="ibtn" id="favBtn" onclick="toggleFavFilter()" title="Favoritos">⭐</button>
+      <button class="ibtn" id="themeBtn" onclick="toggleTheme()" title="Tema">🌙</button>
+      <button class="ibtn" onclick="openSettings()" title="Ajustes">⚙</button>
     </div>
   </div>
-  <div class="filters-section">
-    <div class="filter-group-label">Gestión</div>
-    <div class="filters-scroll" id="chipsGestion"></div>
-    <div class="filter-group-label">Terapéutico · Nutergia</div>
-    <div class="filters-scroll" id="chipsTerapeutico"></div>
+
+  <div class="srch">
+    <div class="sbox">
+      <span style="color:var(--mu);font-size:16px;flex-shrink:0;">🔍</span>
+      <input type="search" id="si" placeholder="ficha omega3, campaña embarazo, contrato 2024…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <button class="clr" id="clrBtn" onclick="clearSearch()">✕</button>
+    </div>
   </div>
-  <div class="stats-bar" id="statsBar">Cargando catálogo…</div>
-  <div class="results-area">
-    <div id="loadingState" class="state-msg"><div class="spinner"></div><p>Cargando documentos…</p></div>
-    <div id="emptyState" class="state-msg" style="display:none"><div class="big">📂</div><h3>Empieza a buscar</h3><p>Escribe cualquier palabra o filtra por categoría</p></div>
-    <div id="noResults" class="state-msg" style="display:none"><div class="big">🔍</div><h3>Sin resultados</h3><p>Prueba con otras palabras o quita algún filtro</p></div>
-    <div class="results-grid" id="resultsGrid"></div>
+
+  <!-- Active tags bar -->
+  <div class="atags" id="atagsBar"></div>
+
+  <!-- Filter groups -->
+  <div class="flt">
+    <div class="flt-row" id="fgrpRow"></div>
+    <div id="fdropArea"></div>
+  </div>
+
+  <div class="stats" id="statsBar">Cargando catálogo…</div>
+
+  <div class="res" id="resArea">
+    <div id="loadState" class="smsg"><div class="spin"></div><p>Cargando documentos…</p></div>
+    <div id="emptyState" class="smsg" style="display:none"><div class="big">📂</div><h3>Empieza a buscar</h3><p>Escribe algo o usa los filtros de arriba</p></div>
+    <div id="noRes" class="smsg" style="display:none"><div class="big">🔍</div><h3>Sin resultados</h3><p>Prueba con otras palabras o quita algún filtro</p></div>
+    <div class="rgrid" id="rgrid"></div>
   </div>
 </div>
 
-<div class="modal-overlay" id="settingsModal" onclick="closeSettingsOutside(event)">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title">⚙ Configuración</div>
-    <div class="setting-group"><div class="setting-label">URL de Nextcloud</div><input class="setting-input" id="cfgUrl" type="url" placeholder="https://80.38.223.215" /></div>
-    <div class="setting-group"><div class="setting-label">Usuario</div><input class="setting-input" id="cfgUser" type="text" placeholder="Fran.nunez" autocomplete="username" /></div>
-    <div class="setting-group"><div class="setting-label">Contraseña</div><input class="setting-input" id="cfgPass" type="password" placeholder="••••••••" autocomplete="current-password" /></div>
-    <div class="setting-group"><div class="setting-label">Nombre del archivo CSV</div><input class="setting-input" id="cfgCsv" type="text" placeholder="catalogo_archivos.csv" /></div>
-    <button class="save-btn" onclick="saveSettings()">Guardar configuración</button>
-    <div class="version-info" id="versionInfo"></div>
+<!-- Settings -->
+<div class="mover" id="settModal" onclick="closeSettOuts(event)">
+  <div class="msheet">
+    <div class="mhandle"></div>
+    <div class="mtitle">⚙ Configuración</div>
+    <div class="sgrp"><div class="slabel">URL de Nextcloud</div><input class="sinput" id="cfgUrl" type="url" placeholder="https://80.38.223.215"/></div>
+    <div class="sgrp"><div class="slabel">Usuario</div><input class="sinput" id="cfgUser" type="text" placeholder="Fran.nunez" autocomplete="username"/></div>
+    <div class="sgrp"><div class="slabel">Contraseña</div><input class="sinput" id="cfgPass" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
+    <div class="sgrp"><div class="slabel">Nombre del CSV</div><input class="sinput" id="cfgCsv" type="text" placeholder="catalogo_archivos.csv"/></div>
+    <button class="sbtn" onclick="saveSettings()">Guardar configuración</button>
+    <div class="vinfo" id="vinfo"></div>
   </div>
 </div>
 
 <script>
-const CFG_KEY='docufran_cfg', CTAGS_KEY='docufran_custom_tags', APP_VERSION='v0.2.0';
-const TAGS_GESTION=['fran','ventas','comisiones','PAI','delegados','sell-out','comercial','SEPA','pago','navidad','vacaciones','excel','pdf','word','powerpoint','imagen'];
-const TAGS_TERAPEUTICO=['detox','digestión','microbiota','probióticos','estrés','sueño','energía','vitalidad','inmunidad','defensas','mujer','embarazo','articulaciones','huesos','circulación','cardiovascular','rendimiento-intelectual','hombre','próstata','niños','deporte','ocular','proteína','esencias-florales','peso','hígado','magnesio','omega3','vitamina-d','vitamina-c','nutergia','producto','osteo','odonto','pediatria'];
-const SYNONYMS={
-  'embarazada':['embarazo','mujer','gestación','prenatal','maternidad'],
-  'embarazo':['embarazada','mujer','gestación','prenatal','maternidad'],
-  'detox':['detoxificación','drenaje','depuración','hígado','metabolismo','eliminación'],
-  'detoxificación':['detox','drenaje','depuración'],
-  'hígado':['detox','hepático','ergyliver','cardo','alcachofa'],
-  'digestión':['digestivo','intestino','probióticos','microbiota','tránsito','gases'],
-  'microbiota':['probióticos','flora','intestinal','digestión'],
-  'estrés':['nervioso','ansiedad','sueño','calma','relax','ergystress'],
-  'sueño':['insomnio','descanso','estrés'],
-  'energía':['fatiga','vitalidad','cansancio','agotamiento'],
-  'vitalidad':['energía','fatiga','hierro','vitaminas'],
-  'inmunidad':['defensas','inmune','infección','virus'],
-  'articulaciones':['huesos','osteo','artrosis','colágeno','ergycox'],
-  'huesos':['articulaciones','calcio','osteoporosis'],
-  'mujer':['femenino','menopausia','embarazo','vaginal','íntima'],
-  'hombre':['masculino','próstata','prostático'],
-  'niños':['infantil','pediatría','bebé','pediatria'],
-  'deporte':['deportista','rendimiento','recuperación','ergysport'],
-  'peso':['adelgazar','control','drenaje','metabolismo'],
-  'circulación':['cardiovascular','venas','varices','corazón'],
-};
-let allDocs=[],activeTag=null,searchQuery='',customTags={},isDark=true;
+const CFG_KEY='dfcfg', CT_KEY='dfctags', FAV_KEY='dffavs', APP_VER='v1.1';
 
-function toggleTheme(){isDark=!isDark;document.body.classList.toggle('light',!isDark);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';document.getElementById('themeColorMeta').content=isDark?'#1a1f2e':'#f0f2f8';localStorage.setItem('docufran_theme',isDark?'dark':'light');}
-function loadConfig(){try{return JSON.parse(localStorage.getItem(CFG_KEY))||{};}catch{return{};}}
-function saveSettings(){const cfg={url:document.getElementById('cfgUrl').value.trim().replace(/\/$/,''),user:document.getElementById('cfgUser').value.trim(),pass:document.getElementById('cfgPass').value,csv:document.getElementById('cfgCsv').value.trim()||'catalogo_archivos.csv'};localStorage.setItem(CFG_KEY,JSON.stringify(cfg));closeSettings();document.getElementById('headerSub').textContent=`Conectado como ${cfg.user}`;}
-function openSettings(){const cfg=loadConfig();document.getElementById('cfgUrl').value=cfg.url||'https://80.38.223.215';document.getElementById('cfgUser').value=cfg.user||'Fran.nunez';document.getElementById('cfgPass').value=cfg.pass||'';document.getElementById('cfgCsv').value=cfg.csv||'catalogo_archivos.csv';document.getElementById('versionInfo').textContent=`DocuFran ${APP_VERSION}`;document.getElementById('settingsModal').classList.add('open');}
-function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
-function closeSettingsOutside(e){if(e.target.id==='settingsModal')closeSettings();}
-function loadCustomTags(){try{return JSON.parse(localStorage.getItem(CTAGS_KEY))||{};}catch{return{};}}
-function saveCustomTags(){localStorage.setItem(CTAGS_KEY,JSON.stringify(customTags));}
-function docKey(doc){return doc.ruta||doc.nombre;}
-function addCustomTag(key,tag){tag=tag.trim().toLowerCase();if(!tag)return;if(!customTags[key])customTags[key]=[];if(!customTags[key].includes(tag)){customTags[key].push(tag);saveCustomTags();}}
-function removeCustomTag(key,tag){if(!customTags[key])return;customTags[key]=customTags[key].filter(t=>t!==tag);saveCustomTags();}
+// ── FILTER DEFINITIONS ──────────────────────────────────────
+const FILTER_GROUPS = [
+  {
+    id:'producto', label:'📋 Producto', type:'normal',
+    chips:[
+      {id:'fichas', label:'Fichas', match:{grupos:['Producto Nutergia'], tipos:['Ficha','Vademecum']}},
+      {id:'vademecum', label:'Vademecum', match:{carpetas:['vademecum']}},
+      {id:'journals', label:'Journals', match:{tipos:['Journal'], palabras:['journal']}},
+      {id:'estudios', label:'Estudios', match:{tipos:['Estudio/Informe'], palabras:['estudio','informe']}},
+      {id:'marketing', label:'Marketing', match:{tipos:['Marketing'], carpetas:['nutergia/materiales marketing']}},
+      {id:'tutoriales', label:'Tutoriales', match:{carpetas:['tutoriales de nutergia']}},
+      {id:'protocolos', label:'Protocolos', match:{palabras:['protocolo']}},
+      {id:'oficial', label:'Oficial Nutergia', match:{etiquetas:['oficial','nutergia oficial']}},
+    ]
+  },
+  {
+    id:'terapeutico', label:'💊 Terapéutico', type:'therapeutic',
+    chips:[
+      {id:'intestino', label:'Intestino/Microbiota', match:{carpetas:['intestino'], palabras:['intestino','microbiota','probiot','flora']}},
+      {id:'detox', label:'Detox', match:{carpetas:['detoxificacion y limpieza'], palabras:['detox','drenaj','depura']}},
+      {id:'mujer', label:'Salud Mujer', match:{carpetas:['femenino'], palabras:['mujer','femenin','embaraz','vaginal']}},
+      {id:'embarazo', label:'Embarazo', match:{palabras:['embaraz','gestac','prenatal','maternidad']}},
+      {id:'osteo', label:'Osteoarticular', match:{carpetas:['osteoarticular'], palabras:['osteo','articular','hueso','artritis']}},
+      {id:'cognitivo', label:'Cognitivo', match:{carpetas:['cognitivo'], palabras:['cognitiv','memoria','concentrac']}},
+      {id:'metabolismo', label:'Metabolismo', match:{carpetas:['metabolismo'], palabras:['metabolismo','glucemia','glicemia']}},
+      {id:'deporte', label:'Deporte', match:{carpetas:['deporte'], palabras:['deport','sport','ejercicio']}},
+      {id:'inmunidad', label:'Inmunidad', match:{carpetas:['inmunidad'], palabras:['inmun','defens','virus']}},
+      {id:'estetica', label:'Estética/Antiaging', match:{carpetas:['estetica y antiaging'], palabras:['antiaging','estetica','piel']}},
+      {id:'alergenos', label:'Alérgenos', match:{carpetas:['alergenos'], palabras:['alerg']}},
+      {id:'iomet', label:'Iomet', match:{carpetas:['iomet','iomet curas','imagenes iomet'], palabras:['iomet']}},
+      {id:'pediatria', label:'Pediatría', match:{carpetas:['pediatria'], palabras:['pediatr','niño','infant','bebé']}},
+      {id:'acidos', label:'Ácidos Grasos/Omega', match:{carpetas:['acidos grasos'], palabras:['omega','dha','epa','acido graso']}},
+      {id:'animo', label:'Ánimo/Estrés', match:{carpetas:['animo estado'], palabras:['animo','estres','ansiedad','depres']}},
+      {id:'micoinmune', label:'MicoInmune', match:{carpetas:['micoinmune'], palabras:['mico','hongo']}},
+      {id:'nutril', label:'Nutril Gama', match:{carpetas:['nutril gama'], palabras:['nutril']}},
+      {id:'elidyn', label:'Elidyn', match:{carpetas:['elidyn 2019'], palabras:['elidyn']}},
+      {id:'annaelle', label:'Annaelle', match:{carpetas:['annaelle'], palabras:['annaelle']}},
+    ]
+  },
+  {
+    id:'comercial', label:'💰 Comercial', type:'normal',
+    chips:[
+      {id:'precios', label:'Lista de precios', match:{carpetas:['lista de precios'], palabras:['precio','tarifa']}},
+      {id:'campanas', label:'Campañas', match:{grupos:['Comercial'], tipos:['Campaña/Oferta'], carpetas:['campañas']}},
+      {id:'ofertas', label:'Ofertas', match:{palabras:['oferta']}},
+      {id:'contratos', label:'Contratos', match:{carpetas:['contratos'], palabras:['contrato','acuerdo']}},
+      {id:'infoenviada', label:'Info enviada', match:{carpetas:['información enviada','informacion enviada']}},
+      {id:'formaciones', label:'Formaciones farmacias', match:{carpetas:['farmacias']}},
+      {id:'navidad', label:'Navidad', match:{carpetas:['regalos navidad'], palabras:['navidad']}},
+    ]
+  },
+  {
+    id:'formacion', label:'🎓 Formación', type:'normal',
+    chips:[
+      {id:'congresos', label:'Congresos', match:{carpetas:['congresos'], tipos:['Congreso']}},
+      {id:'cursos', label:'Cursos', match:{carpetas:['cursos de pago','formaciones mias'], tipos:['Curso/Formación']}},
+      {id:'reuniones', label:'Reuniones comerciales', match:{tipos:['Reunión comercial'], palabras:['reunion','reunión']}},
+    ]
+  },
+  {
+    id:'clientes', label:'👥 Clientes', type:'normal',
+    chips:[
+      {id:'farmacias', label:'Farmacias', match:{carpetas:['farmacias']}},
+      {id:'odonto', label:'Odontólogos', match:{carpetas:['odontologos'], palabras:['odonto','dental']}},
+      {id:'fisio', label:'Fisioterapia', match:{carpetas:['fisioterapia'], palabras:['fisio']}},
+      {id:'terapeutas', label:'Terapeutas', match:{carpetas:['contratos/02 terapeutas']}},
+    ]
+  },
+  {
+    id:'gestion', label:'📁 Gestión', type:'normal',
+    chips:[
+      {id:'pedidos', label:'Pedidos', match:{carpetas:['02 pedidos'], tipos:['Pedido']}},
+      {id:'jornada', label:'Jornada laboral', match:{carpetas:['jornada laboral']}},
+      {id:'xavier', label:'Xavier', match:{carpetas:['xavier']}},
+      {id:'maria', label:'María Viñals', match:{carpetas:['02 maria viñals']}},
+      {id:'escaneados', label:'Escaneados', match:{carpetas:['escaneados_']}},
+    ]
+  },
+  {
+    id:'excluir', label:'🚫 Excluir', type:'excl',
+    chips:[
+      {id:'ex_download', label:'Download', match:{carpetas:['download']}},
+      {id:'ex_sepa', label:'SEPA', match:{carpetas:['sepa']}},
+      {id:'ex_backup', label:'Backup', match:{carpetas:['backup y copias de seguridad']}},
+      {id:'ex_pedidos', label:'Pedidos', match:{carpetas:['02 pedidos']}},
+      {id:'ex_sistema', label:'Sistema', match:{grupos:['Sistema']}},
+    ]
+  },
+];
 
-function parseCSV(text){const lines=text.split('\n').filter(l=>l.trim());const docs=[];for(let i=1;i<lines.length;i++){const p=lines[i].split(';').map(x=>x.replace(/^"|"$/g,'').trim());if(p.length<7)continue;docs.push({nombre:p[0]||'',descripcion:p[1]||'',etiquetas:p[2]||'',categoria:p[3]||'',extension:(p[4]||'').toLowerCase(),fecha:p[5]||'',ruta:p[6]||'',duplicado:p[7]||''});}return docs;}
+// ── SYNONYMS ────────────────────────────────────────────────
+const SYN={'embarazada':['embarazo','mujer','gestación','prenatal'],'embarazo':['embarazada','mujer','gestación','prenatal'],'detox':['detoxificación','drenaje','depuración','hígado'],'hígado':['ergyliver','cardo','alcachofa','detox'],'digestión':['digestivo','intestino','probióticos','microbiota','tránsito'],'microbiota':['probióticos','flora','intestinal'],'estrés':['nervioso','ansiedad','ergystress','sueño'],'energía':['fatiga','vitalidad','cansancio'],'inmunidad':['defensas','inmune','infección'],'articulaciones':['huesos','osteo','artrosis','ergycox'],'mujer':['femenino','menopausia','embarazo','vaginal'],'niños':['infantil','pediatría','bebé','pediatria'],'precio':['tarifa','lista','precios'],'campaña':['oferta','promo','precampaña']};
 
-async function loadData(){const cfg=loadConfig();const csvFile=cfg.csv||'catalogo_archivos.csv';try{const r=await fetch(csvFile);if(!r.ok)throw new Error(`No se pudo cargar ${csvFile}`);const text=await r.text();allDocs=parseCSV(text);customTags=loadCustomTags();document.getElementById('loadingState').style.display='none';buildFilters();showEmpty();document.getElementById('headerSub').textContent=cfg.user?`Conectado como ${cfg.user} · ${allDocs.length.toLocaleString()} docs`:`${allDocs.length.toLocaleString()} documentos`;document.getElementById('versionBadge').textContent=APP_VERSION;if(!cfg.user)setTimeout(openSettings,700);}catch(e){document.getElementById('loadingState').innerHTML=`<div class="big">⚠️</div><h3>Error al cargar</h3><p>${e.message}</p>`;}}
+let allDocs=[], activeTags=new Set(), activeExcl=new Set(), favOnly=false, searchQ='', customTags={}, favs=new Set(), isDark=true, openGroup=null;
 
-function matchesTag(doc,tag){const hay=normalize([doc.etiquetas,doc.descripcion,doc.nombre,doc.categoria].join(' '));const t=normalize(tag);if(hay.includes(t))return true;return(SYNONYMS[t]||[]).some(s=>hay.includes(normalize(s)));}
+// ── CONFIG ──────────────────────────────────────────────────
+const cfg=()=>{try{return JSON.parse(localStorage.getItem(CFG_KEY))||{};}catch{return{};}};
+function saveSettings(){const c={url:document.getElementById('cfgUrl').value.trim().replace(/\/$/,''),user:document.getElementById('cfgUser').value.trim(),pass:document.getElementById('cfgPass').value,csv:document.getElementById('cfgCsv').value.trim()||'catalogo_archivos.csv'};localStorage.setItem(CFG_KEY,JSON.stringify(c));closeSettings();document.getElementById('hsub').textContent=`Conectado como ${c.user}`;}
+function openSettings(){const c=cfg();document.getElementById('cfgUrl').value=c.url||'https://80.38.223.215';document.getElementById('cfgUser').value=c.user||'Fran.nunez';document.getElementById('cfgPass').value=c.pass||'';document.getElementById('cfgCsv').value=c.csv||'catalogo_archivos.csv';document.getElementById('vinfo').textContent=`DocuFran ${APP_VER}`;document.getElementById('settModal').classList.add('on');}
+function closeSettings(){document.getElementById('settModal').classList.remove('on');}
+function closeSettOuts(e){if(e.target.id==='settModal')closeSettings();}
 
-function buildFilters(){buildGroup('chipsGestion',TAGS_GESTION,false);buildGroup('chipsTerapeutico',TAGS_TERAPEUTICO,true);}
-function buildGroup(id,tags,therapeutic){const c=document.getElementById(id);c.innerHTML='';tags.forEach(tag=>{const count=allDocs.filter(d=>matchesTag(d,tag)).length;if(count===0)return;const chip=document.createElement('button');chip.className='filter-chip'+(therapeutic?' therapeutic':'');chip.dataset.tag=tag;chip.innerHTML=`${tag} <span class="chip-count">${count}</span>`;chip.onclick=()=>toggleTag(tag);c.appendChild(chip);});}
-function toggleTag(tag){activeTag=activeTag===tag?null:tag;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.toggle('active',c.dataset.tag===activeTag));doSearch();}
+// ── THEME ───────────────────────────────────────────────────
+function toggleTheme(){isDark=!isDark;document.body.classList.toggle('light',!isDark);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';document.getElementById('themeColorMeta').content=isDark?'#1a1f2e':'#f0f2f8';localStorage.setItem('dftheme',isDark?'dark':'light');}
 
-document.getElementById('searchInput').addEventListener('input',function(){searchQuery=this.value.trim();document.getElementById('clearBtn').classList.toggle('visible',searchQuery.length>0);doSearch();});
-function clearSearch(){document.getElementById('searchInput').value='';searchQuery='';document.getElementById('clearBtn').classList.remove('visible');doSearch();}
-function normalize(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function expandQuery(q){const words=normalize(q).split(/\s+/).filter(Boolean);const exp=new Set(words);words.forEach(w=>{(SYNONYMS[w]||[]).forEach(s=>exp.add(normalize(s)));});return[...exp];}
-function docText(doc){return normalize([doc.nombre,doc.descripcion,doc.etiquetas,doc.categoria,doc.ruta,(customTags[docKey(doc)]||[]).join(' ')].join(' '));}
+// ── FAVS ────────────────────────────────────────────────────
+const loadFavs=()=>{try{return new Set(JSON.parse(localStorage.getItem(FAV_KEY))||[]);}catch{return new Set();}};
+const saveFavs=()=>localStorage.setItem(FAV_KEY,JSON.stringify([...favs]));
+function toggleFavFilter(){favOnly=!favOnly;document.getElementById('favBtn').classList.toggle('fav-on',favOnly);doSearch();}
 
-function doSearch(){const words=searchQuery?expandQuery(searchQuery):[];const filtered=allDocs.filter(doc=>{if(activeTag&&!matchesTag(doc,activeTag))return false;if(words.length===0)return true;const hay=docText(doc);return words.some(w=>hay.includes(w));});renderResults(filtered);}
+// ── CUSTOM TAGS ─────────────────────────────────────────────
+const loadCT=()=>{try{return JSON.parse(localStorage.getItem(CT_KEY))||{};}catch{return{};}};
+const saveCT=()=>localStorage.setItem(CT_KEY,JSON.stringify(customTags));
+const dk=doc=>doc.ruta||doc.nombre;
 
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function highlight(text,q){if(!q)return esc(text);const words=normalize(q).split(/\s+/).filter(Boolean);let r=esc(text);words.forEach(w=>{const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');r=r.replace(rx,'<mark>$1</mark>');});return r;}
-function fileIcon(ext){const m={pdf:['PDF','icon-pdf'],xlsx:['XLS','icon-xlsx'],xls:['XLS','icon-xls'],docx:['DOC','icon-docx'],doc:['DOC','icon-doc'],pptx:['PPT','icon-pptx'],ppt:['PPT','icon-ppt'],jpg:['IMG','icon-img'],jpeg:['IMG','icon-img'],png:['IMG','icon-img'],gif:['IMG','icon-img']};return m[ext]||['···','icon-other'];}
-function ncUrl(ruta){const cfg=loadConfig();return`${cfg.url||'https://80.38.223.215'}/remote.php/webdav/${encodeURI(ruta.replace(/\\/g,'/'))}`;}
-function folderUrl(ruta){const cfg=loadConfig();const d=ruta.replace(/\\/g,'/');const dir=d.includes('/')?d.substring(0,d.lastIndexOf('/')):'';return`${cfg.url||'https://80.38.223.215'}/index.php/apps/files/?dir=/${encodeURI(dir)}`;}
+// ── CSV PARSE ───────────────────────────────────────────────
+function parseCSV(text){
+  const lines=text.split('\n').filter(l=>l.trim());
+  const docs=[];
+  // Detect columns from header
+  const header=lines[0].split(';').map(h=>h.toLowerCase().trim());
+  const col=n=>header.indexOf(n);
+  const iNom=col('nombre'),iDesc=col('descripcion'),iEtq=col('etiquetas'),
+    iGrp=Math.max(col('grupo'),0),iTipo=Math.max(col('tipo'),0),
+    iCat=col('categoria'),iExt=col('extension'),iFec=col('fecha'),
+    iRuta=col('ruta'),iDup=col('duplicado'),iExcl=col('excluir');
+  for(let i=1;i<lines.length;i++){
+    const p=lines[i].split(';').map(x=>x.replace(/^"|"$/g,'').trim());
+    if(p.length<6)continue;
+    docs.push({
+      nombre:p[iNom]||'',descripcion:p[iDesc]||'',etiquetas:p[iEtq]||'',
+      grupo:iGrp>=0?(p[iGrp]||''):'',tipo:iTipo>=0?(p[iTipo]||''):'',
+      categoria:p[iCat]||'',extension:(p[iExt]||'').toLowerCase(),
+      fecha:p[iFec]||'',ruta:p[iRuta]||'',
+      duplicado:iDup>=0?(p[iDup]||''):'',excluir:iExcl>=0?(p[iExcl]||''):''
+    });
+  }
+  return docs;
+}
 
-function renderResults(filtered){const grid=document.getElementById('resultsGrid');const stats=document.getElementById('statsBar');if(!searchQuery&&!activeTag){showEmpty();return;}grid.style.display='';document.getElementById('emptyState').style.display='none';if(filtered.length===0){grid.innerHTML='';document.getElementById('noResults').style.display='block';stats.innerHTML='Sin resultados';return;}document.getElementById('noResults').style.display='none';stats.innerHTML=`<span>${filtered.length}</span> resultado${filtered.length!==1?'s':''} de ${allDocs.length.toLocaleString()} documentos`;const shown=filtered.slice(0,120);grid.innerHTML=shown.map((doc,idx)=>{const[iconText,iconClass]=fileIcon(doc.extension);const tags=doc.etiquetas.split(',').map(t=>t.trim()).filter(Boolean);const cTags=customTags[docKey(doc)]||[];const fecha=doc.fecha.split(' ')[0];const key=docKey(doc).replace(/'/g,"\\'");return`<div class="result-card" id="card_${idx}" onclick="toggleCard(${idx},event)"><div class="file-icon ${iconClass}">${iconText}</div><div class="card-body"><div class="card-name">${highlight(doc.nombre,searchQuery)}</div><div class="card-meta"><span>${doc.extension.toUpperCase()}</span>${fecha?`<span>·</span><span>${fecha}</span>`:''}${doc.duplicado?`<span class="tag-pill dup">Duplicado</span>`:''}</div><div class="card-path">${esc(doc.ruta.replace(/\\/g,'/'))}</div>${tags.length||cTags.length?`<div class="card-tags">${tags.map(t=>`<span class="tag-pill">${esc(t)}</span>`).join('')}${cTags.map(t=>`<span class="tag-pill custom">${esc(t)}</span>`).join('')}</div>`:''}<div class="card-details"><div class="full-path">📁 ${esc(doc.ruta.replace(/\\/g,'/'))}</div><div class="card-actions"><a class="action-btn primary" href="${ncUrl(doc.ruta)}" target="_blank" onclick="event.stopPropagation()">↗ Abrir</a><a class="action-btn" href="${ncUrl(doc.ruta)}" download="${esc(doc.nombre)}" target="_blank" onclick="event.stopPropagation()">↓ Descargar</a><a class="action-btn" href="${folderUrl(doc.ruta)}" target="_blank" onclick="event.stopPropagation()">📁 Carpeta</a><button class="action-btn" onclick="copyLink(event,'${esc(ncUrl(doc.ruta))}',this)">⧉ Copiar</button></div><div class="tag-editor"><div class="tag-editor-label">Mis etiquetas personales</div><div class="tag-editor-row"><input class="tag-input" id="ti_${idx}" type="text" placeholder="añadir etiqueta…" onclick="event.stopPropagation()" onkeydown="if(event.key==='Enter')addTag(event,${idx},'${key}')" /><button class="tag-add-btn" onclick="addTag(event,${idx},'${key}')">+ Añadir</button></div><div class="custom-tags-list" id="ctl_${idx}">${cTags.map(t=>`<span class="custom-tag-item">${esc(t)}<button class="remove-tag" onclick="removeTag(event,${idx},'${key}','${esc(t)}')">✕</button></span>`).join('')}</div></div></div></div></div>`;}).join('');if(filtered.length>120)grid.innerHTML+=`<div style="text-align:center;padding:14px;color:var(--muted);font-size:12px;grid-column:1/-1">Mostrando 120 de ${filtered.length}. Afina la búsqueda.</div>`;}
+// ── LOAD ────────────────────────────────────────────────────
+async function loadData(){
+  const c=cfg();const csvFile=c.csv||'catalogo_archivos.csv';
+  try{
+    const r=await fetch(csvFile);
+    if(!r.ok)throw new Error(`No se pudo cargar ${csvFile}`);
+    allDocs=parseCSV(await r.text());
+    customTags=loadCT();favs=loadFavs();
+    document.getElementById('loadState').style.display='none';
+    buildFilterGroups();showEmpty();
+    document.getElementById('hsub').textContent=c.user?`${c.user} · ${allDocs.length.toLocaleString()} docs`:`${allDocs.length.toLocaleString()} documentos`;
+    document.getElementById('vbadge').textContent=APP_VER;
+    if(!c.user)setTimeout(openSettings,700);
+  }catch(e){document.getElementById('loadState').innerHTML=`<div class="big">⚠️</div><h3>Error al cargar</h3><p>${e.message}</p>`;}
+}
 
-function toggleCard(idx,e){if(e&&e.target.closest('.action-btn,.tag-input,.tag-add-btn,.remove-tag'))return;const card=document.getElementById(`card_${idx}`);if(!card)return;const was=card.classList.contains('expanded');document.querySelectorAll('.result-card.expanded').forEach(c=>c.classList.remove('expanded'));if(!was)card.classList.add('expanded');}
-function addTag(e,idx,key){e.stopPropagation();const input=document.getElementById(`ti_${idx}`);const tag=input.value.trim();if(!tag)return;addCustomTag(key,tag);input.value='';refreshCTL(idx,key);}
-function removeTag(e,idx,key,tag){e.stopPropagation();removeCustomTag(key,tag);refreshCTL(idx,key);}
-function refreshCTL(idx,key){const list=document.getElementById(`ctl_${idx}`);if(!list)return;const cTags=customTags[key]||[];list.innerHTML=cTags.map(t=>`<span class="custom-tag-item">${esc(t)}<button class="remove-tag" onclick="removeTag(event,${idx},'${key.replace(/'/g,"\\'")}','${esc(t)}')">✕</button></span>`).join('');}
-function copyLink(e,url,btn){e.stopPropagation();navigator.clipboard.writeText(url).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado';btn.classList.add('copied');setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied');},2000);});}
-function showEmpty(){document.getElementById('emptyState').style.display='block';document.getElementById('noResults').style.display='none';document.getElementById('resultsGrid').innerHTML='';document.getElementById('resultsGrid').style.display='none';document.getElementById('statsBar').innerHTML=allDocs.length?`<span>${allDocs.length.toLocaleString()}</span> documentos indexados`:'';}
+// ── FILTER MATCH ────────────────────────────────────────────
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 
-const savedTheme=localStorage.getItem('docufran_theme');
-if(savedTheme==='light'){isDark=false;document.body.classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
+function docMatchesChip(doc, chip){
+  const m=chip.match;
+  const ruta=norm(doc.ruta.replace(/\\/g,'/'));
+  const todo=norm([doc.nombre,doc.descripcion,doc.etiquetas,doc.categoria,doc.grupo,doc.tipo,(customTags[dk(doc)]||[]).join(' ')].join(' '));
+  if(m.grupos && m.grupos.some(g=>norm(doc.grupo||'').includes(norm(g)))) return true;
+  if(m.tipos && m.tipos.some(t=>norm(doc.tipo||'').includes(norm(t)))) return true;
+  if(m.carpetas && m.carpetas.some(c=>ruta.startsWith(norm(c))||ruta.includes('/'+norm(c)+'/')->ruta.includes(norm(c)))) return true;
+  if(m.etiquetas && m.etiquetas.some(e=>todo.includes(norm(e)))) return true;
+  if(m.palabras && m.palabras.some(p=>todo.includes(norm(p)))) return true;
+  return false;
+}
+
+// Fix arrow function syntax issue
+function docMatchesCarpeta(doc, carpeta){
+  const ruta=norm(doc.ruta.replace(/\\/g,'/'));
+  return ruta.startsWith(norm(carpeta)) || ruta.includes(norm(carpeta));
+}
+
+function docMatchesChipFixed(doc, chip){
+  const m=chip.match;
+  const ruta=norm(doc.ruta.replace(/\\/g,'/'));
+  const todo=norm([doc.nombre,doc.descripcion,doc.etiquetas,doc.categoria,doc.grupo,doc.tipo,(customTags[dk(doc)]||[]).join(' ')].join(' '));
+  if(m.grupos && m.grupos.some(g=>norm(doc.grupo||'').includes(norm(g)))) return true;
+  if(m.tipos && m.tipos.some(t=>norm(doc.tipo||'').includes(norm(t)))) return true;
+  if(m.carpetas && m.carpetas.some(c=>docMatchesCarpeta(doc,c))) return true;
+  if(m.etiquetas && m.etiquetas.some(e=>todo.includes(norm(e)))) return true;
+  if(m.palabras && m.palabras.some(p=>todo.includes(norm(p)))) return true;
+  return false;
+}
+
+// ── BUILD FILTERS ───────────────────────────────────────────
+function buildFilterGroups(){
+  const row=document.getElementById('fgrpRow');
+  const dropArea=document.getElementById('fdropArea');
+  row.innerHTML='';dropArea.innerHTML='';
+
+  FILTER_GROUPS.forEach(grp=>{
+    // Count matching docs
+    const activeInGrp=grp.chips.filter(c=>activeTags.has(c.id)||activeExcl.has(c.id));
+    const btn=document.createElement('button');
+    btn.className='fgrp-btn'+(grp.type==='therapeutic'?' therapeutic':'')+(grp.type==='excl'?' excl':'')+(activeInGrp.length?' has-active':'')+(openGroup===grp.id?' open':'');
+    btn.innerHTML=`${grp.label} <span class="cnt">${grp.chips.length}</span>`;
+    btn.onclick=()=>toggleGroup(grp.id);
+    row.appendChild(btn);
+
+    // Dropdown
+    const drop=document.createElement('div');
+    drop.className='fdrop'+(openGroup===grp.id?' open':'');
+    drop.id='drop_'+grp.id;
+    grp.chips.forEach(chip=>{
+      const count=allDocs.filter(d=>docMatchesChipFixed(d,chip)).length;
+      if(count===0&&!activeTags.has(chip.id)&&!activeExcl.has(chip.id))return;
+      const el=document.createElement('button');
+      const isActive=activeTags.has(chip.id)||activeExcl.has(chip.id);
+      el.className='fchip'+(grp.type==='therapeutic'?' therapeutic':'')+(grp.type==='excl'?' excl':'')+(isActive?' on':'');
+      el.textContent=`${chip.label}${count?' ('+count+')':''}`;
+      el.onclick=()=>toggleChip(chip.id,grp.type==='excl');
+      drop.appendChild(el);
+    });
+    dropArea.appendChild(drop);
+  });
+}
+
+function toggleGroup(gid){
+  openGroup=openGroup===gid?null:gid;
+  buildFilterGroups();
+}
+
+function toggleChip(chipId, isExcl){
+  if(isExcl){
+    if(activeExcl.has(chipId))activeExcl.delete(chipId);
+    else activeExcl.add(chipId);
+  } else {
+    if(activeTags.has(chipId))activeTags.delete(chipId);
+    else activeTags.add(chipId);
+  }
+  buildFilterGroups();
+  updateActiveTagsBar();
+  doSearch();
+}
+
+function updateActiveTagsBar(){
+  const bar=document.getElementById('atagsBar');
+  const allActive=[...activeTags,...activeExcl];
+  if(allActive.length===0&&!favOnly){bar.className='atags';bar.innerHTML='';return;}
+  bar.className='atags on';
+  let html='';
+  if(favOnly) html+=`<span class="atag fv" onclick="toggleFavFilter()">⭐ Favoritos ✕</span>`;
+  activeTags.forEach(id=>{
+    const chip=findChip(id);
+    if(chip) html+=`<span class="atag g" onclick="toggleChip('${id}',false)">${chip.label} ✕</span>`;
+  });
+  activeExcl.forEach(id=>{
+    const chip=findChip(id);
+    if(chip) html+=`<span class="atag ex" onclick="toggleChip('${id}',true)">🚫 ${chip.label} ✕</span>`;
+  });
+  bar.innerHTML=html;
+}
+
+function findChip(id){
+  for(const g of FILTER_GROUPS){const c=g.chips.find(c=>c.id===id);if(c)return c;}return null;
+}
+
+// ── SEARCH ──────────────────────────────────────────────────
+document.getElementById('si').addEventListener('input',function(){searchQ=this.value.trim();document.getElementById('clrBtn').classList.toggle('on',searchQ.length>0);doSearch();});
+function clearSearch(){document.getElementById('si').value='';searchQ='';document.getElementById('clrBtn').classList.remove('on');doSearch();}
+
+function expandQ(q){const ws=norm(q).split(/\s+/).filter(Boolean);const exp=new Set(ws);ws.forEach(w=>{(SYN[w]||[]).forEach(s=>exp.add(norm(s)));});return[...exp];}
+
+// Fuzzy match - tolerates 1 character error for words > 4 chars
+function fuzzyMatch(hay, needle){
+  if(hay.includes(needle))return true;
+  if(needle.length<=3)return false;
+  // Simple: check if 80% of chars match consecutively
+  for(let i=0;i<=hay.length-needle.length+1;i++){
+    let diff=0;
+    for(let j=0;j<needle.length&&i+j<hay.length;j++){if(hay[i+j]!==needle[j])diff++;}
+    if(diff<=1)return true;
+  }
+  return false;
+}
+
+function docText(doc){return norm([doc.nombre,doc.descripcion,doc.etiquetas,doc.categoria,doc.grupo,doc.tipo,doc.ruta,(customTags[dk(doc)]||[]).join(' ')].join(' '));}
+
+function doSearch(){
+  const words=searchQ?expandQ(searchQ):[];
+
+  let filtered=allDocs.filter(doc=>{
+    // Favorites filter
+    if(favOnly&&!favs.has(dk(doc)))return false;
+    // Exclusion filters
+    for(const exId of activeExcl){
+      const chip=findChip(exId);
+      if(chip&&docMatchesChipFixed(doc,chip))return false;
+    }
+    // Inclusion filters (OR within same group, AND across groups)
+    if(activeTags.size>0){
+      // Group active tags by group
+      const byGroup={};
+      activeTags.forEach(id=>{
+        const g=FILTER_GROUPS.find(g=>g.chips.some(c=>c.id===id));
+        if(g){if(!byGroup[g.id])byGroup[g.id]=[];byGroup[g.id].push(id);}
+      });
+      // Must match at least one chip from each active group
+      for(const gid of Object.keys(byGroup)){
+        const chips=byGroup[gid];
+        const matchesAny=chips.some(id=>{const chip=findChip(id);return chip&&docMatchesChipFixed(doc,chip);});
+        if(!matchesAny)return false;
+      }
+    }
+    // Text search
+    if(words.length>0){
+      const hay=docText(doc);
+      return words.some(w=>fuzzyMatch(hay,w));
+    }
+    return true;
+  });
+
+  renderResults(filtered);
+}
+
+// ── RENDER ──────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hl(text,q){if(!q)return esc(text);const ws=norm(q).split(/\s+/).filter(Boolean);let r=esc(text);ws.forEach(w=>{const rx=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');r=r.replace(rx,'<mark>$1</mark>');});return r;}
+function ficon(ext){const m={pdf:['PDF','i-pdf'],xlsx:['XLS','i-xlsx'],xls:['XLS','i-xls'],docx:['DOC','i-docx'],doc:['DOC','i-doc'],pptx:['PPT','i-pptx'],ppt:['PPT','i-ppt'],jpg:['IMG','i-img'],jpeg:['IMG','i-img'],png:['IMG','i-img'],gif:['IMG','i-img'],mp4:['VID','i-mp4'],mp3:['AUD','i-mp3'],m4a:['AUD','i-m4a']};return m[ext]||['···','i-other'];}
+function ncUrl(ruta){const c=cfg();return`${c.url||'https://80.38.223.215'}/remote.php/webdav/${encodeURI(ruta.replace(/\\/g,'/'))}`;}
+function folUrl(ruta){const c=cfg();const d=ruta.replace(/\\/g,'/');const dir=d.includes('/')?d.substring(0,d.lastIndexOf('/')):'';return`${c.url||'https://80.38.223.215'}/index.php/apps/files/?dir=/${encodeURI(dir)}`;}
+
+function renderResults(filtered){
+  const grid=document.getElementById('rgrid');
+  const stats=document.getElementById('statsBar');
+  const hasFilters=activeTags.size>0||activeExcl.size>0||favOnly;
+  if(!searchQ&&!hasFilters){showEmpty();return;}
+  grid.style.display='';
+  document.getElementById('emptyState').style.display='none';
+  if(filtered.length===0){grid.innerHTML='';document.getElementById('noRes').style.display='block';stats.innerHTML='Sin resultados';return;}
+  document.getElementById('noRes').style.display='none';
+  stats.innerHTML=`<span>${filtered.length}</span> resultado${filtered.length!==1?'s':''} de ${allDocs.length.toLocaleString()} documentos`;
+  const shown=filtered.slice(0,150);
+  grid.innerHTML=shown.map((doc,idx)=>{
+    const[it,ic]=ficon(doc.extension);
+    const tags=doc.etiquetas.split(',').map(t=>t.trim()).filter(Boolean).slice(0,4);
+    const cTags=customTags[dk(doc)]||[];
+    const fecha=doc.fecha?doc.fecha.split(' ')[0]:'';
+    const isFav=favs.has(dk(doc));
+    const key=(dk(doc)).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return`<div class="card${isFav?' faved':''}" id="cd_${idx}" onclick="toggleCard(${idx},event)">
+      <div class="ficon ${ic}">${it}</div>
+      <div class="cbody">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;">
+          <div class="cname" style="flex:1;">${hl(doc.nombre,searchQ)}</div>
+          <button class="card-fav-btn${isFav?' on':''}" onclick="toggleFav(event,'${key}',${idx})" title="${isFav?'Quitar favorito':'Añadir favorito'}">${isFav?'⭐':'☆'}</button>
+        </div>
+        <div class="cmeta">
+          ${doc.grupo?`<span class="tp g">${esc(doc.grupo)}</span>`:''}
+          ${doc.tipo?`<span class="tp t">${esc(doc.tipo)}</span>`:''}
+          ${fecha?`<span>${fecha}</span>`:''}
+          ${doc.duplicado?`<span class="tp dup">Duplicado</span>`:''}
+        </div>
+        <div class="cpath">${esc(doc.ruta.replace(/\\/g,'/'))}</div>
+        ${tags.length||cTags.length?`<div class="ctags">${tags.map(t=>`<span class="tp c">${esc(t)}</span>`).join('')}${cTags.map(t=>`<span class="tp c">${esc(t)}</span>`).join('')}</div>`:''}
+        <div class="cdet">
+          <div class="fullpath">📁 ${esc(doc.ruta.replace(/\\/g,'/'))}</div>
+          ${doc.descripcion?`<div style="font-size:12px;color:var(--mu);margin-bottom:7px;">${esc(doc.descripcion)}</div>`:''}
+          <div class="cacts">
+            <a class="abtn pr" href="${ncUrl(doc.ruta)}" target="_blank" onclick="event.stopPropagation()">↗ Abrir</a>
+            <a class="abtn" href="${ncUrl(doc.ruta)}" download="${esc(doc.nombre)}" target="_blank" onclick="event.stopPropagation()">↓ Descargar</a>
+            <a class="abtn" href="${folUrl(doc.ruta)}" target="_blank" onclick="event.stopPropagation()">📁 Carpeta</a>
+            <button class="abtn" onclick="copyLink(event,'${esc(ncUrl(doc.ruta))}',this)">⧉ Copiar</button>
+          </div>
+          <div class="tedit">
+            <div class="telabel">Mis etiquetas</div>
+            <div class="terow">
+              <input class="teinput" id="ti_${idx}" type="text" placeholder="añadir etiqueta…" onclick="event.stopPropagation()" onkeydown="if(event.key==='Enter')addTag(event,${idx},'${key}')"/>
+              <button class="teadd" onclick="addTag(event,${idx},'${key}')">+ Añadir</button>
+            </div>
+            <div class="ctlist" id="ctl_${idx}">${cTags.map(t=>`<span class="ctitem">${esc(t)}<button class="rmtag" onclick="rmTag(event,${idx},'${key}','${esc(t)}')">✕</button></span>`).join('')}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if(filtered.length>150)grid.innerHTML+=`<div style="text-align:center;padding:14px;color:var(--mu);font-size:12px;grid-column:1/-1">Mostrando 150 de ${filtered.length}. Afina la búsqueda.</div>`;
+}
+
+function toggleCard(idx,e){if(e&&e.target.closest('.abtn,.teinput,.teadd,.rmtag,.card-fav-btn'))return;const c=document.getElementById(`cd_${idx}`);if(!c)return;const was=c.classList.contains('exp');document.querySelectorAll('.card.exp').forEach(x=>x.classList.remove('exp'));if(!was)c.classList.add('exp');}
+function toggleFav(e,key,idx){e.stopPropagation();const rKey=key.replace(/\\'/g,"'").replace(/\\\\/g,'\\');if(favs.has(rKey))favs.delete(rKey);else favs.add(rKey);saveFavs();const c=document.getElementById(`cd_${idx}`);if(c){const isFav=favs.has(rKey);c.classList.toggle('faved',isFav);const btn=c.querySelector('.card-fav-btn');if(btn){btn.classList.toggle('on',isFav);btn.textContent=isFav?'⭐':'☆';btn.title=isFav?'Quitar favorito':'Añadir favorito';}}if(favOnly)doSearch();}
+function addTag(e,idx,key){e.stopPropagation();const input=document.getElementById(`ti_${idx}`);const tag=input.value.trim();if(!tag)return;const rKey=key.replace(/\\'/g,"'").replace(/\\\\/g,'\\');if(!customTags[rKey])customTags[rKey]=[];if(!customTags[rKey].includes(tag)){customTags[rKey].push(tag);saveCT();}input.value='';refreshCTL(idx,rKey);}
+function rmTag(e,idx,key,tag){e.stopPropagation();const rKey=key.replace(/\\'/g,"'").replace(/\\\\/g,'\\');if(customTags[rKey])customTags[rKey]=customTags[rKey].filter(t=>t!==tag);saveCT();refreshCTL(idx,rKey);}
+function refreshCTL(idx,key){const list=document.getElementById(`ctl_${idx}`);if(!list)return;const tags=customTags[key]||[];const safeKey=key.replace(/\\/g,'\\\\').replace(/'/g,"\\'");list.innerHTML=tags.map(t=>`<span class="ctitem">${esc(t)}<button class="rmtag" onclick="rmTag(event,${idx},'${safeKey}','${esc(t)}')">✕</button></span>`).join('');}
+function copyLink(e,url,btn){e.stopPropagation();navigator.clipboard.writeText(url).then(()=>{const o=btn.textContent;btn.textContent='✓ Copiado';btn.classList.add('cp');setTimeout(()=>{btn.textContent=o;btn.classList.remove('cp');},2000);});}
+function showEmpty(){document.getElementById('emptyState').style.display='block';document.getElementById('noRes').style.display='none';document.getElementById('rgrid').innerHTML='';document.getElementById('rgrid').style.display='none';document.getElementById('statsBar').innerHTML=allDocs.length?`<span>${allDocs.length.toLocaleString()}</span> documentos indexados`:'';}
+
+// ── INIT ────────────────────────────────────────────────────
+const st=localStorage.getItem('dftheme');
+if(st==='light'){isDark=false;document.body.classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
 loadData();
 </script>
 <script>if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));</script>

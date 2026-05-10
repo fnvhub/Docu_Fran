@@ -1,21 +1,23 @@
 # DocuFran — Historial de versiones
 
-## v0.2.0 — 2026-05-10
+## v1.1 — 2026-05-10
 ### Novedades
-- Modo claro / oscuro con botón en la cabecera
-- Filtros reorganizados en dos grupos: Gestión y Terapéutico
-- Nuevas etiquetas terapéuticas basadas en categorías Nutergia: detox, digestión, microbiota, probióticos, estrés, sueño, energía, vitalidad, inmunidad, defensas, mujer, embarazo, articulaciones, huesos, circulación, cardiovascular, rendimiento-intelectual, hombre, próstata, niños, deporte, ocular, proteína, esencias-florales, peso, hígado, magnesio, omega3, vitamina-d, vitamina-c
-- Búsqueda inteligente con sinónimos (ej: "embarazada" → embarazo, mujer, gestación)
-- Modal de documento: ruta completa, todas las etiquetas, acciones y editor de etiquetas personalizadas
-- Gestión de etiquetas: añadir y eliminar etiquetas propias por documento (guardadas localmente)
-- Nombre del CSV configurable desde ajustes
-- Versión visible en cabecera, gestionada desde CHANGELOG.md
+- Filtros desplegables por grupos: Producto, Terapéutico, Comercial, Formación, Clientes, Gestión
+- Selección múltiple de filtros — combina "embarazo" + "fichas" + "2024" a la vez
+- Filtros de exclusión — oculta Download, SEPA, Pedidos, Backup con un toque
+- Barra de filtros activos — ves qué tienes activado y los quitas con un toque
+- Favoritos — estrella en cada documento, botón ⭐ en cabecera para ver solo favoritos
+- Búsqueda con tolerancia a errores — "ergifilus" encuentra "ergyphilus"
+- Búsqueda multi-palabra — "ficha omega embarazo" busca los tres términos
+- Script PowerShell v2 — genera CSV enriquecido con Grupo y Tipo automáticos
+- Etiquetas personales mejoradas — se muestran en verde en la tarjeta
 
-## v0.1.0 — 2026-05-10
+## v1.0 — 2026-05-10
 ### Lanzamiento inicial
-- Búsqueda full-text sobre nombre, descripción, etiquetas, categoría y ruta
-- 28 etiquetas de gestión como chips horizontales
-- Acciones por documento: abrir en Nextcloud, descargar, ver carpeta, copiar enlace
-- Credenciales Nextcloud guardadas en el dispositivo
+- Búsqueda full-text con sinónimos
+- Filtros en dos filas: Gestión y Terapéutico
+- Modo claro/oscuro
+- Modal de documento con ruta, acciones y editor de etiquetas
+- CSV configurable desde ajustes
 - PWA instalable (manifest + service worker)
 - Optimizada para móvil y tablet horizontal
