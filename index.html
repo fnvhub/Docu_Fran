@@ -358,10 +358,11 @@ function parseCSV(text){
   const lines=text.split('\n').filter(l=>l.trim());
   const docs=[];
   // Detect columns from header
-  const header=lines[0].split(';').map(h=>h.toLowerCase().trim());
-  const col=n=>header.indexOf(n);
+  const rawHeader=lines[0].replace(/^﻿/,'');
+  const header=rawHeader.split(';').map(h=>h.toLowerCase().trim().replace(/^"+|"+$/g,''));
+  const col=n=>header.indexOf(n.toLowerCase());
   const iNom=col('nombre'),iDesc=col('descripcion'),iEtq=col('etiquetas'),
-    iGrp=Math.max(col('grupo'),0),iTipo=Math.max(col('tipo'),0),
+    iGrp=col('grupo'),iTipo=col('tipo'),
     iCat=col('categoria'),iExt=col('extension'),iFec=col('fecha'),
     iRuta=col('ruta'),iDup=col('duplicado'),iExcl=col('excluir');
   for(let i=1;i<lines.length;i++){
