@@ -623,8 +623,8 @@ function renderResults(filtered){
     return`<div class="card${isFav?' faved':''}" id="cd_${idx}" onclick="toggleCard(${idx},event)">
       <div class="ficon ${ic}">${it}</div>
       <div class="cbody">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;">
-          <div class="cname" style="flex:1;">${hl(doc.nombre,searchQ)}</div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px;margin-bottom:4px;">
+          <div style="flex:1;font-size:15px;font-weight:600;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${hl(doc.nombre,searchQ)}</div>
           <button class="card-fav-btn${isFav?' on':''}" onclick="toggleFav(event,'${key}',${idx})" title="${isFav?'Quitar favorito':'Añadir favorito'}">${isFav?'⭐':'☆'}</button>
         </div>
         <div class="cmeta">

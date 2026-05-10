@@ -1,5 +1,9 @@
 # DocuFran — Historial de versiones
 
+## v1.2.3 — 2026-05-10
+### Correcciones
+- Nombre del archivo ahora visible y destacado en todas las tarjetas
+
 ## v1.2.2 — 2026-05-10
 ### Correcciones
 - Versión leída automáticamente desde CHANGELOG, sin tocar index.html
