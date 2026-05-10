@@ -403,7 +403,7 @@ function docMatchesChip(doc, chip){
   const todo=norm([doc.nombre,doc.descripcion,doc.etiquetas,doc.categoria,doc.grupo,doc.tipo,(customTags[dk(doc)]||[]).join(' ')].join(' '));
   if(m.grupos && m.grupos.some(g=>norm(doc.grupo||'').includes(norm(g)))) return true;
   if(m.tipos && m.tipos.some(t=>norm(doc.tipo||'').includes(norm(t)))) return true;
-  if(m.carpetas && m.carpetas.some(c=>ruta.startsWith(norm(c))||ruta.includes('/'+norm(c)+'/')->ruta.includes(norm(c)))) return true;
+  if(m.carpetas && m.carpetas.some(c=>ruta.startsWith(norm(c))||ruta.includes(norm(c)))) return true;
   if(m.etiquetas && m.etiquetas.some(e=>todo.includes(norm(e)))) return true;
   if(m.palabras && m.palabras.some(p=>todo.includes(norm(p)))) return true;
   return false;
