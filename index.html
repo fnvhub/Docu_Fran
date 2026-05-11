@@ -389,9 +389,9 @@ function parseCSV(text){
   const lines=text.split('\n').filter(l=>l.trim());
   const docs=[];
   // Detect columns from header
-  const rawHeader=lines[0].replace(/^﻿/,'');
-  const header=rawHeader.split(';').map(h=>h.toLowerCase().trim().replace(/^"+|"+$/g,''));
-  const col=n=>header.indexOf(n.toLowerCase());
+  const rawHeader=lines[0].replace(/^[\ufeff\s]+/,'');
+  const header=rawHeader.split(';').map(h=>h.toLowerCase().trim().replace(/^["'\s]+|["'\s]+$/g,''));
+  const col=n=>{const i=header.indexOf(n.toLowerCase());return i;};
   const iNom=col('nombre'),iDesc=col('descripcion'),iEtq=col('etiquetas'),
     iGrp=col('grupo'),iTipo=col('tipo'),
     iCat=col('categoria'),iExt=col('extension'),iFec=col('fecha'),

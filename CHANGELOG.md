@@ -1,5 +1,9 @@
 # DocuFran — Historial de versiones
 
+## v1.2.4 — 2026-05-10
+### Correcciones
+- Nombre del archivo ahora visible en todas las tarjetas (fix definitivo header CSV)
+
 ## v1.2.3 — 2026-05-10
 ### Correcciones
 - Nombre del archivo ahora visible y destacado en todas las tarjetas
